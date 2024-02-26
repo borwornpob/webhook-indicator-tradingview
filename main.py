@@ -19,6 +19,10 @@ def processing_webhooks(symbol: str, direction: str):
     print(listAlerts)
     return {"message": "Webhook processed"}
 
+@app.get("/webhooks")
+def get_all_webhooks():
+    return listAlerts
+
 @app.get("/mtindicator")
 def returnsignal(symbol: str) -> Union[dict, None]:
     # Filter listAlerts to only include items with the matching symbol
