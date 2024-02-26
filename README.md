@@ -9,7 +9,7 @@ This project is a simple server that listens for webhook calls from TradingView 
 ### TradingView Part
 
 1. Set an alert with a webhook calling to the server URL.
-2. Format the alert message using this format: `{"Symbol": {{ticker}}, "Direction": "Buy"}`
+2. Format the alert message using this format: `{"Symbol": {{ticker}}, "Direction": "Buy"}, "Code": "Name of the indicator"`
 
 ### Server Part
 
@@ -20,7 +20,6 @@ This project is a simple server that listens for webhook calls from TradingView 
 ## Documentation
 
 The server API documentation is available at `<server_url>/docs`. It provides detailed information about the available endpoints, their parameters, and responses.
-
 
 ## License
 
