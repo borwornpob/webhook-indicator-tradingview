@@ -1,20 +1,25 @@
 from fastapi import FastAPI
 from typing import List, Union
+from pydantic import BaseModel
 
 app = FastAPI()
 
 # Assuming listAlerts is defined somewhere in your code
 listAlerts = []
 
+class Alert(BaseModel):
+    Symbol: str
+    Direction: str
+
 @app.get("/")
 def read_root():
     return {"message": "up and running"}
 
 @app.post("/webhooks")
-def processing_webhooks(symbol: str, direction: str):
+def processing_webhooks(data: Alert):
     listAlerts.append({
-        "Symbol": symbol,
-        "Direction": direction
+        "Symbol": data.Symbol,
+        "Direction": data.Direction
     })
     print(listAlerts)
     return {"message": "Webhook processed"}
