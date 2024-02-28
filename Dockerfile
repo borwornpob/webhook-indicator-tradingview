@@ -1,11 +1,11 @@
 FROM python:3.12-slim
 
-WORKDIR /app
+WORKDIR /
 
 COPY . /app/
 
-RUN pip install -r requirements.txt
+RUN pip install -r /app/requirements.txt
 
 EXPOSE 8000
 
-CMD uvicorn src.main:app --host $UVICORN_HOST --port $UVICORN_PORT 
+CMD uvicorn app.src.main:app --host $UVICORN_HOST --port $UVICORN_PORT 
