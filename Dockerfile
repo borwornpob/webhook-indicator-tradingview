@@ -1,11 +1,10 @@
 FROM python:3.12-slim
 
-WORKDIR /
+WORKDIR /app
 
-COPY . /app/
+COPY ./src /app
+COPY ./requirements.txt /app
 
 RUN pip install -r /app/requirements.txt
 
-EXPOSE 8000
-
-CMD uvicorn app.src.main:app --host $UVICORN_HOST --port $PORT 
+CMD gunicorn -w 1 -k uvicorn.workers.UvicornWorker -b [::]:$PORT main:app --timeout 300

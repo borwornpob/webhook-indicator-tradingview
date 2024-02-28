@@ -3,6 +3,5 @@ services:
     fastapi-app:
         build: .
         environment:
-            - UVICORN_HOST=0.0.0.0
-            - UVICORN_PORT=80
             - SERVICE_FQDN_MTWEBHOOK
+            - PORT=80
