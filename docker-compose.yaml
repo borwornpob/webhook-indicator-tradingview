@@ -1,12 +1,9 @@
-version: '3.8'
+version: "3.8"
 services:
-  fastapi-app:
-    build: .
-    ports:
-      - "8001:8000"
-    environment:
-      - UVICORN_HOST=0.0.0.0
-      - UVICORN_PORT=8000
-      - UVICORN_WORKERS=1
-    volumes:
-      - .:/app
+    fastapi-app:
+        build: .
+        environment:
+            - UVICORN_HOST=0.0.0.0
+            - UVICORN_PORT=80
+        volumes:
+            - .:/app
