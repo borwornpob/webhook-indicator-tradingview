@@ -51,20 +51,20 @@ def returnsignal(symbol: str, code: str) -> Union[dict, None]:
     else:
         return None
 
-@app.get("/news", response_model=NewsItem)
-def get_news():
+def check_news_time():
     current_time = datetime.now(timezone.utc)
-    closest_news = None
-    min_time_diff = float('inf')
     
     for news in news_data:
         news_time = datetime.fromisoformat(news.date)
-        time_diff = abs((current_time - news_time).total_seconds())
-        if time_diff < min_time_diff:
-            min_time_diff = time_diff
-            closest_news = news
-    
-    return closest_news
+        if news_time <= current_time:
+            alert = {
+                "Symbol": news.country,
+                "Direction": "news",
+                "Code": "news"
+            }
+            listAlerts.append(alert)
+            news_data.remove(news)
+            print(f"Alert added: {alert}")
 
 def processing_news():
     forex_factory_api = "https://nfs.faireconomy.media/ff_calendar_thisweek.json"
@@ -78,7 +78,10 @@ def processing_news():
 scheduler = BackgroundScheduler()
 
 # Add the processing_news function to the scheduler
-scheduler.add_job(processing_news, 'interval', minutes=30)
+scheduler.add_job(processing_news, 'cron', day_of_week='mon', hour=0, minute=1)
+
+# Add the check_news_time function to the scheduler
+scheduler.add_job(check_news_time, 'interval', seconds=1)
 
 # Start the scheduler
 scheduler.start()
