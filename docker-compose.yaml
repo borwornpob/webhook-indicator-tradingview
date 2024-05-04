@@ -2,6 +2,5 @@ version: "3.8"
 services:
     fastapi-app:
         build: .
-        environment:
-            - SERVICE_FQDN_MTWEBHOOK
-            - PORT=$PORT
+        ports:
+            - "5001:5001"
