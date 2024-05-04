@@ -23,9 +23,17 @@ class NewsItem(BaseModel):
     forecast: str
     previous: str
 
+class logItem(BaseModel):
+    log: str
+
 @app.get("/")
 def read_root():
     return {"message": "up and running"}
+
+@app.post("/log")
+def read_log(data: logItem):
+    print(data.log)
+    return {"message": "Log received"}
 
 @app.post("/webhooks")
 def processing_webhooks(data: Alert):
