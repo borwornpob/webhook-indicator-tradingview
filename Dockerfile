@@ -7,4 +7,4 @@ COPY ./requirements.txt /app
 
 RUN pip install -r /app/requirements.txt
 
-CMD gunicorn -w 1 -k uvicorn.workers.UvicornWorker -b [::]:$PORT main:app --timeout 300
+CMD gunicorn -w 1 -k uvicorn.workers.UvicornWorker -b [::]:5001 main:app --timeout 300
