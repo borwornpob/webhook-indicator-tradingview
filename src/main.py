@@ -4,11 +4,14 @@ from pydantic import BaseModel
 from apscheduler.schedulers.background import BackgroundScheduler
 import requests
 from datetime import datetime, timezone
+from starlette.responses import Response
+from starlette.requests import Request
 
 app = FastAPI()
 
 listAlerts = []
 news_data = []  # Global variable to store news data
+log = ["This is a test log"]
 
 class Alert(BaseModel):
     Symbol: str
@@ -23,17 +26,19 @@ class NewsItem(BaseModel):
     forecast: str
     previous: str
 
-class logItem(BaseModel):
-    log: str
-
 @app.get("/")
 def read_root():
     return {"message": "up and running"}
 
-@app.post("/log")
-def read_log(data: logItem):
-    print(data.log)
-    return {"message": "Log received"}
+@app.post("/log", response_class=Response)
+async def read_log(request: Request):
+    body = await request.body()
+    log[0] = body.decode()
+    return body
+
+@app.get("/log")
+def read_log():
+    return {"log": log[0]}
 
 @app.post("/webhooks")
 def processing_webhooks(data: Alert):
