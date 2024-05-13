@@ -36,6 +36,27 @@ async def read_log(request: Request):
     log[0] = body.decode()
     return body
 
+@app.post("/reversal", response_class=Response)
+async def reversal(request: Request):
+    body = await request.body()
+    alerts = body.decode().split(" ")
+    symbol = alerts[0]
+    direction = alerts[1]
+    if direction == "bearish":
+        direction = "Sell"
+    elif direction == "bullish":
+        direction = "Buy"
+
+    alert = {
+        "Symbol": symbol,
+        "Direction": direction,
+        "Code": "reversal"
+    }
+
+    listAlerts.append(alert)
+    print(f"Alert added: {alert}")
+    return body
+
 @app.get("/log")
 def read_log():
     return {"log": log[0]}
